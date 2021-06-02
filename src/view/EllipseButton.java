@@ -8,48 +8,61 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Rectangle2D;
 
-public class CircleButton extends JPanel {
+/**
+ * This class manages the shape and interaction of a button shaped like an ellipse.
+ */
+public class EllipseButton extends JPanel {
 
     private Color unpressed, pressed, current;
     private int offset, x, y, width, height;
     private String name;
     private final ActionListener listener;
+    private final Font font;
 
-    public CircleButton(String name, ActionListener listener) {
+    /**
+     * Creates an EllipseButton with a set name/text and action listener.
+     * @param name The name as well as the text on the button
+     * @param listener The ActionListener for when the button is clicked on
+     */
+    public EllipseButton(String name, ActionListener listener) {
         this.name = name;
         Mouse mouse = new Mouse();
-        makeButton();
+        font = new Font("Serif", Font.BOLD, 16);
+        makeButton(new Color(0xaaaaaa), new Color(0x777777));
         addMouseListener(mouse);
         addMouseMotionListener(mouse);
         this.listener = listener;
     }
 
-    private void makeButton () {
-        unpressed = new Color(0xaaaaaa);
-        pressed = new Color(0x777777);
+    // makes the property of the button
+    private void makeButton (Color up, Color p) {
+        unpressed = up;
+        pressed = p;
         current = unpressed;
         offset = 10;
-        updateCircle();
+        updateEllipse();
     }
 
-    @Override
-    protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        updateCircle();
-        g.setColor(current);
-        g.fillOval(offset, offset, width, height);
-        g.setColor(Color.BLACK);
-        g.setFont(new Font("Serif", Font.BOLD, 16));
-        drawingString(g, name);
-    }
-
-    private void updateCircle() {
+    // updates the ellipse based on panel size
+    private void updateEllipse() {
         x = getWidth() / 2;
         y = getHeight() / 2;
         width = this.getWidth() - 2 * offset;
         height = this.getHeight() - 2 * offset;
     }
 
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        updateEllipse();
+        g.setColor(current);
+        g.fillOval(offset, offset, width, height);
+        g.setColor(Color.BLACK);
+        g.setFont(font);
+        drawingString(g, name);
+    }
+
+    // draws the name of the button on the button in the center of the button.
     private void drawingString(Graphics g, String s) {
         Rectangle2D bounds = g.getFontMetrics().getStringBounds(s, g);
         int x = (this.getWidth() - (int) bounds.getWidth()) / 2;
@@ -62,9 +75,11 @@ public class CircleButton extends JPanel {
         this.name = name;
     }
 
+    // creates a MouseAdapter class that detect mouse activity
     private class Mouse extends MouseAdapter {
-        private int press = 0;
+        private boolean press = false;
 
+        // checks if the mouse is inside of the ellipse
         private boolean isInside(int mouseX, int mouseY) {
             int distX = x - mouseX;
             int distY = y - mouseY;
@@ -84,7 +99,7 @@ public class CircleButton extends JPanel {
             super.mousePressed(e);
             if (isInside(e.getX(), e.getY())) {
                 current = pressed;
-                press = 1;
+                press = true;
             }
             paintComponent(getGraphics());
         }
@@ -94,11 +109,11 @@ public class CircleButton extends JPanel {
             super.mouseDragged(e);
             if (!isInside(e.getX(), e.getY())) {
                 current = unpressed;
-                press = 0;
+                press = false;
             }
             else {
                 current = pressed;
-                press = 1;
+                press = true;
             }
             paintComponent(getGraphics());
         }
@@ -108,7 +123,8 @@ public class CircleButton extends JPanel {
             super.mouseReleased(e);
             current = unpressed;
             paintComponent(getGraphics());
-            if (press == 1 && listener != null) {
+            if (press && listener != null) {
+                // activates the ActionListener
                 ActionEvent g = new ActionEvent(e.getSource(), e.getID(), e.paramString());
                 listener.actionPerformed(g);
             }

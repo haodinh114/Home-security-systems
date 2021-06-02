@@ -1,25 +1,42 @@
 package view.screens;
 
-import view.CircleButton;
+import view.EllipseButton;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 
+/**
+ * This class is the User Interface for the SimpliSafe keypad.
+ * This class is able to verify a user via a password system.
+ */
 public class KeypadUI extends JPanel {
 
-    private CircleButton b0, b1, b2, b3, b4, b5, b6, b7 , b8, b9, menu, del, off, home, away;
+    private EllipseButton b0, b1, b2, b3, b4, b5, b6, b7 , b8, b9, menu, del, off, home, away;
     private JPasswordField passField;
-    private String password;
+    private final String password;
     JLabel instruction;
 
+    /**
+     * Initialize the keypad with a password
+     * @param password the password to be checked
+     */
     public KeypadUI(String password) {
         createKeypad();
         this.password = password;
     }
 
+    // create the whole keypad
     private void createKeypad() {
         setLayout(new BorderLayout());
+        JPanel screen = getScreen();
+        JPanel buttons = getButtons();
+        add(screen, BorderLayout.NORTH);
+        add(buttons, BorderLayout.CENTER);
+    }
+
+    // creates the screen of the keypad
+    private JPanel getScreen() {
         JPanel screen = new JPanel(new BorderLayout());
         instruction = new JLabel();
         instruction.setText("Enter PIN:");
@@ -33,6 +50,13 @@ public class KeypadUI extends JPanel {
         passArea.add(new JPanel());
         passArea.add(passField);
         passArea.add(new JPanel());
+        screen.add(instruction, BorderLayout.NORTH);
+        screen.add(passArea, BorderLayout.CENTER);
+        return screen;
+    }
+
+    // adds the button onto a keypad
+    private JPanel getButtons() {
         initButtons();
         JPanel buttons = new JPanel(new GridLayout(5, 3));
         buttons.add(off);
@@ -41,39 +65,32 @@ public class KeypadUI extends JPanel {
         buttons.add(b7);
         buttons.add(b8);
         buttons.add(b9);
-
         buttons.add(b4);
         buttons.add(b5);
         buttons.add(b6);
-
         buttons.add(b1);
         buttons.add(b2);
         buttons.add(b3);
-
         buttons.add(menu);
         buttons.add(b0);
         buttons.add(del);
-
-        screen.add(instruction, BorderLayout.NORTH);
-        screen.add(passArea, BorderLayout.CENTER);
-        add(screen, BorderLayout.NORTH);
-        add(buttons, BorderLayout.CENTER);
+        return buttons;
     }
 
     // initialize all of the buttons
     private void initButtons() {
-        b0 = new CircleButton("0", new NumPad("0"));
-        b1 = new CircleButton("1", new NumPad("1"));
-        b2 = new CircleButton("2", new NumPad("2"));
-        b3 = new CircleButton("3", new NumPad("3"));
-        b4 = new CircleButton("4", new NumPad("4"));
-        b5 = new CircleButton("5", new NumPad("5"));
-        b6 = new CircleButton("6", new NumPad("6"));
-        b7 = new CircleButton("7", new NumPad("7"));
-        b8 = new CircleButton("8", new NumPad("8"));
-        b9 = new CircleButton("9", new NumPad("9"));
-        menu = new CircleButton("menu", null);
-        del = new CircleButton("Delete",
+        b0 = new EllipseButton("0", new NumPad("0"));
+        b1 = new EllipseButton("1", new NumPad("1"));
+        b2 = new EllipseButton("2", new NumPad("2"));
+        b3 = new EllipseButton("3", new NumPad("3"));
+        b4 = new EllipseButton("4", new NumPad("4"));
+        b5 = new EllipseButton("5", new NumPad("5"));
+        b6 = new EllipseButton("6", new NumPad("6"));
+        b7 = new EllipseButton("7", new NumPad("7"));
+        b8 = new EllipseButton("8", new NumPad("8"));
+        b9 = new EllipseButton("9", new NumPad("9"));
+        menu = new EllipseButton("menu", null);
+        del = new EllipseButton("Delete",
                 e -> {
                     // delete the last character if password length > 0
                     if (passField.getPassword().length>0) {
@@ -81,9 +98,9 @@ public class KeypadUI extends JPanel {
                         passField.setText(temp.substring(0, temp.length() - 1));
                     }
                 });
-        off = new CircleButton("off", null);
-        home = new CircleButton("home", null);
-        away = new CircleButton("away", null);
+        off = new EllipseButton("off", null);
+        home = new EllipseButton("home", null);
+        away = new EllipseButton("away", null);
     }
 
     // The abstract class that manages the input of the numpad
