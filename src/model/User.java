@@ -7,15 +7,22 @@ public class User {
     private String lastname;
     private String firstname;
     private String phoneNumber;
+    private String address;
     public User(String username, String password, String email,
-                String lastname, String firstname, String phoneNumber){
+                String lastname, String firstname, String phoneNumber, String address){
         this.username = username;
         this.password = password;
         this.email = email;
         this.lastname = lastname;
         this.firstname = firstname;
         this.phoneNumber = phoneNumber;
+        this.address = address;
     }
+
+    public String getAddress() {
+        return address;
+    }
+
     public String getUsername() {
         return username;
     }
@@ -66,6 +73,10 @@ public class User {
         this.phoneNumber = phoneNumber;
     }
 
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
     public String toString() {
         return "User{" +  "username=" + username + '\'' +
                 ", password='" + password + '\'' +
@@ -77,11 +88,13 @@ public class User {
     }
 
     public String getFields(){
-        return "username, password, firstname, lastname, email, phonenumber";
+        return "username, password, firstname, lastname, email, phonenumber, address";
     }
 
     public String getValues(){
-        return String.format("'%s', '%s', '%s', '%s', '%s', '%s'", this.username, this.password, this.firstname, this.lastname,
-                this.email, this.phoneNumber);
+        return String.format("'%s', '%s', '%s', '%s', '%s', '%s', '%s'", this.username, this.password, this.firstname, this.lastname,
+                this.email, this.phoneNumber, this.address);
     }
+
+
 }

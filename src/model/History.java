@@ -1,4 +1,6 @@
 package model;
+import db.HistoryDB;
+
 import java.time.LocalDate;
 import java.time.LocalTime;
 public class History {
@@ -12,6 +14,7 @@ public class History {
         this.time = LocalTime.now().toString();
         this.date = LocalDate.now().toString();
         this.username = username;
+        new HistoryDB().addHistory(this);
     }
     public void setTime(String time) {
         this.time = time;
