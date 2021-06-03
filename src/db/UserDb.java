@@ -16,7 +16,7 @@ public class UserDb {
                         "(id integer primary key autoincrement, " +
                         "username text not null UNIQUE, password text not null, " +
                         "lastname text not null, firstname text not null, " +
-                        "email text not null, phonenumber text not null)");
+                        "email text not null, phonenumber text not null, address text not null)");
             }
             catch(SQLException e)
             {
@@ -37,7 +37,9 @@ public class UserDb {
         }
         catch(SQLException e)
         {
+            //handle username is existed here
             System.err.println(e.getMessage());
+            System.out.println("User is already existed");
         }
     }
 
@@ -83,6 +85,15 @@ public class UserDb {
 
         } catch (SQLException e) {
             System.out.println(e.getMessage());
+        }
+    }
+
+    public void isExisted(String username) throws SQLException {
+        String sql = String.format("SELECT password FROM user WHERE username = '%s'" , username);
+        try (Connection conn = this.connect();
+             Statement stmt  = conn.createStatement();
+             ResultSet rs    = stmt.executeQuery(sql)) {
+
         }
     }
 }
