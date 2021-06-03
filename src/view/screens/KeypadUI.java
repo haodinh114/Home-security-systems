@@ -30,9 +30,18 @@ public class KeypadUI extends JPanel {
     private void createKeypad() {
         setLayout(new BorderLayout());
         JPanel screen = getScreen();
+        System.out.println(screen.getBackground());
         JPanel buttons = getButtons();
+        JPanel panic = new JPanel();
+        EllipseButton panicButton = new EllipseButton("panic",
+                new Color(0xff0000),
+                new Color(0xcc0000),
+                null);
+        panicButton.setPreferredSize(new Dimension(60, 60));
+        panic.add(panicButton);
         add(screen, BorderLayout.NORTH);
         add(buttons, BorderLayout.CENTER);
+        add(panic, BorderLayout.SOUTH);
     }
 
     // creates the screen of the keypad
