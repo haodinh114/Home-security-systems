@@ -16,7 +16,7 @@ public class HistoryDB {
                 statement.executeUpdate("CREATE TABLE IF NOT EXISTS history " +
                         "(id integer primary key autoincrement, " +
                         "date text not null, time text not null, " +
-                        "content text not null, username text not null)");
+                        "content text not null, type_alert text not null)");
             }
             catch(SQLException e)
             {
@@ -40,23 +40,29 @@ public class HistoryDB {
         }
     }
 
-    public void selectAll(String username){
-        String sql = String.format("SELECT date, time, content FROM history where username = '%s'", username);
-
+    /**
+     * @return List String of history
+     */
+    public String selectAll(){
+        String sql = String.format("SELECT date, time, content FROM history");
+        StringBuilder result = new StringBuilder();
         try (Connection conn = this.connect();
              Statement stmt  = conn.createStatement();
              ResultSet rs    = stmt.executeQuery(sql)){
 
             // loop through the result set
             while (rs.next()) {
-                System.out.println("Date: " + rs.getString("date") +  "\t" +
+                result.append ("Date: " + rs.getString("date") +  "\t" +
                         "at " + rs.getString("time") + "\t" +
-                        "Description: " + rs.getString("content"));
+                        "Description: " + rs.getString("content") + "\n");
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
+        return result.toString();
     }
+
+
 
     private Connection connect() {
         // SQLite connection string

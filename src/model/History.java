@@ -3,18 +3,22 @@ import db.HistoryDB;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+
 public class History {
 
     String time;
     String date;
     String content;
-    String username;
-    public History(String content, String username){
+    String type_alert;
+    public History(String content, String type_alert){
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
         this.content = content;
-        this.time = LocalTime.now().toString();
+        this.time = String.valueOf(LocalTime.now().getHour()) + ":" + String.valueOf(LocalTime.now().getMinute()) + ":" + String.valueOf(LocalTime.now().getSecond());
         this.date = LocalDate.now().toString();
-        this.username = username;
+        this.type_alert = type_alert;
         new HistoryDB().addHistory(this);
+
     }
     public void setTime(String time) {
         this.time = time;
@@ -30,19 +34,18 @@ public class History {
 
     @Override
     public String toString() {
-        return "History{" +
-                "time='" + time + '\'' +
-                ", date='" + date + '\'' +
-                ", content='" + content + '\'' +
-                '}';
+        return  "Date= " + date +
+                ", Time=" + time +
+                ", Message= " + content +
+                ", Sensor= " + type_alert;
     }
 
     public String getFields(){
-        return "date, time, content, username";
+        return "date, time, content, type_alert";
     }
 
     public String getValues(){
-        return String.format("'%s', '%s', '%s', '%s'", this.date,this.time, this.content, this.username);
+        return String.format("'%s', '%s', '%s', '%s'", this.date,this.time, this.content, this.type_alert);
     }
 
 

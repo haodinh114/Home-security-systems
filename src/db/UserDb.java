@@ -3,6 +3,9 @@ import java.sql.*;
 import java.util.Hashtable;
 import model.User;
 public class UserDb {
+    /**
+     * Create a new user talbe
+     */
     public void createUserTable(){
         {
             try
