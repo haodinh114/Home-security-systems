@@ -7,19 +7,22 @@ public class dbtest {
     public static void main(String[] args){
         User user1 = new User("alex2", "alex123",
                 "alex@gmail", "Trinh", "alex",
-                "1234567");
+                "1234567", "123 Tacoma");
         UserDb userDb = new UserDb();
-        userDb.createNewDatabase("user.db");
-        userDb.createNewDatabase("history.db");
+//        userDb.createNewDatabase("user.db");
+//        userDb.createNewDatabase("history.db");
 
-        userDb.createUserTable();
-        userDb.addUser(user1);
-        History history1 = new History("House is on fire", user1.getUsername());
+//        userDb.createUserTable();
+//        userDb.addUser(user1);
         HistoryDB historyDB = new HistoryDB();
-//        historyDB.createHistoryTable();
+        historyDB.createHistoryTable();
 //        historyDB.addHistory(history1);
-        historyDB.selectAll(user1.getUsername());
+        History history1 = new History("House is on fire", "MotionAlert");
+//        new History("House1 is on fire", "MotionAlert");
+//        new History("House2is on fire", "MotionAlert");
+        new History("Smoke detect", "MotionAlert");
+        System.out.println(historyDB.selectAll());
 
-        System.out.println(userDb.getUserPassword(user1.getUsername()));
+//        System.out.println(userDb.getUserPassword(user1.getUsername()));
     }
 }
