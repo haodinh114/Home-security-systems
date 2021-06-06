@@ -164,8 +164,8 @@ public class EllipseButton extends JPanel {
                 // activates the ActionListener
                 ActionEvent g = new ActionEvent(e.getSource(), e.getID(), e.paramString());
                 listener.actionPerformed(g);
-                press = false;
             }
+            press = false;
         }
     }
 

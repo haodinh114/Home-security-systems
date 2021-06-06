@@ -14,23 +14,20 @@ public class KeypadUI extends JPanel {
 
     private EllipseButton b0, b1, b2, b3, b4, b5, b6, b7 , b8, b9, menu, del, off, home, away;
     private JPasswordField passField;
-    private final String password;
+    private String password = "1234";
     JLabel instruction;
 
     /**
      * Initialize the keypad with a password
-     * @param password the password to be checked
      */
-    public KeypadUI(String password) {
+    public KeypadUI() {
         createKeypad();
-        this.password = password;
     }
 
     // create the whole keypad
     private void createKeypad() {
         setLayout(new BorderLayout());
         JPanel screen = getScreen();
-        System.out.println(screen.getBackground());
         JPanel buttons = getButtons();
         JPanel panic = new JPanel();
         EllipseButton panicButton = new EllipseButton("panic",
