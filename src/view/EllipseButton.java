@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
 
 /**
  * This class manages the shape and interaction of a button shaped like an ellipse.
@@ -28,7 +29,24 @@ public class EllipseButton extends JPanel {
         this.name = name;
         Mouse mouse = new Mouse();
         font = new Font("Serif", Font.BOLD, 16);
-        makeButton(new Color(0xaaaaaa), new Color(0x777777));
+        makeButton(new Color(0x999999), new Color(0x777777));
+        addMouseListener(mouse);
+        addMouseMotionListener(mouse);
+        this.listener = listener;
+    }
+
+    /**
+     * Creates an EllipseButton with a set name/text and action listener.
+     * @param name The name as well as the text on the button
+     * @param up the color when it is unpressed
+     * @param p the color when it is pressed
+     * @param listener The ActionListener for when the button is clicked on
+     */
+    public EllipseButton(String name, Color up, Color p, ActionListener listener) {
+        this.name = name;
+        Mouse mouse = new Mouse();
+        font = new Font("Serif", Font.BOLD, 16);
+        makeButton(up, p);
         addMouseListener(mouse);
         addMouseMotionListener(mouse);
         this.listener = listener;
@@ -55,11 +73,19 @@ public class EllipseButton extends JPanel {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         updateEllipse();
-        g.setColor(current);
-        g.fillOval(offset, offset, width, height);
-        g.setColor(Color.BLACK);
-        g.setFont(font);
-        drawingString(g, name);
+        BufferedImage image = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_RGB);
+        Graphics2D bbg = (Graphics2D) image.getGraphics();
+        bbg.setRenderingHint(
+                RenderingHints.KEY_ANTIALIASING,
+                RenderingHints.VALUE_ANTIALIAS_ON);
+        bbg.setColor(this.getBackground());
+        bbg.fillRect(0,0, getWidth(), getHeight());
+        bbg.setColor(current);
+        bbg.fillOval(offset, offset, width, height);
+        bbg.setColor(Color.WHITE);
+        bbg.setFont(font);
+        drawingString(bbg, name);
+        g.drawImage(image, 0, 0, this);
     }
 
     // draws the name of the button on the button in the center of the button.
@@ -78,6 +104,7 @@ public class EllipseButton extends JPanel {
     // creates a MouseAdapter class that detect mouse activity
     private class Mouse extends MouseAdapter {
         private boolean press = false;
+        private boolean pressInside = false;
 
         // checks if the mouse is inside of the ellipse
         private boolean isInside(int mouseX, int mouseY) {
@@ -98,36 +125,47 @@ public class EllipseButton extends JPanel {
         public void mousePressed(MouseEvent e) {
             super.mousePressed(e);
             if (isInside(e.getX(), e.getY())) {
-                current = pressed;
-                press = true;
+                if (!press) {
+                    current = pressed;
+                    press = true;
+                    pressInside = true;
+                    paintComponent(getGraphics());
+                }
             }
-            paintComponent(getGraphics());
         }
 
         @Override
         public void mouseDragged(MouseEvent e) {
             super.mouseDragged(e);
             if (!isInside(e.getX(), e.getY())) {
-                current = unpressed;
-                press = false;
+                if (press && pressInside) {
+                    current = unpressed;
+                    press = false;
+                    paintComponent(getGraphics());
+                }
             }
             else {
-                current = pressed;
-                press = true;
+                if (!press && pressInside) {
+                    current = pressed;
+                    press = true;
+                    paintComponent(getGraphics());
+                }
             }
-            paintComponent(getGraphics());
+
         }
 
         @Override
         public void mouseReleased(MouseEvent e) {
             super.mouseReleased(e);
             current = unpressed;
+            pressInside = false;
             paintComponent(getGraphics());
             if (press && listener != null) {
                 // activates the ActionListener
                 ActionEvent g = new ActionEvent(e.getSource(), e.getID(), e.paramString());
                 listener.actionPerformed(g);
             }
+            press = false;
         }
     }
 
