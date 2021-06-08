@@ -47,15 +47,15 @@ public class KeypadUI extends JPanel {
         instruction = new JLabel();
         instruction.setText("Enter PIN:");
         instruction.setHorizontalAlignment(SwingConstants.CENTER);
-        JPanel passArea = new JPanel(new GridLayout(1,3));
+        JPanel passArea = new JPanel(new BorderLayout());
         passField = new JPasswordField();
         passField.setPreferredSize(new Dimension(100, 100));
         passField.setFont(new Font("Serif", Font.BOLD, 68));
         passField.setEditable(false);
         passField.setColumns(0);
-        passArea.add(new JPanel());
+        passArea.add(new JPanel(), BorderLayout.EAST);
         passArea.add(passField);
-        passArea.add(new JPanel());
+        passArea.add(new JPanel(), BorderLayout.WEST);
         screen.add(instruction, BorderLayout.NORTH);
         screen.add(passArea, BorderLayout.CENTER);
         return screen;

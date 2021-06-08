@@ -8,12 +8,12 @@ import javax.swing.*;
  */
 public enum Screens {
     HOME(new HomeScreen(), null),
-    NOTIFICATION(null, HOME),
+    NOTIFICATION(new NotificationScreen(), HOME),
     ARM_DISARM(new KeypadUI(), HOME),
-    SENSORS(null, HOME),
-    TEMPERATURE(null, HOME),
-    CAMERA(null, HOME),
-    SIMPLISAFE(null, HOME);
+    STATUS(new StatusScreen(), HOME),
+    TEMPERATURE(new TemperatureScreen(), HOME),
+    CAMERA(new CameraScreen(), HOME),
+    SIMPLISAFE(new SimpliSafeScreen(), HOME);
 
     private final Screens prev;
     private final JPanel panel;

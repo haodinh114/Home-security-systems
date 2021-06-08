@@ -1,5 +1,6 @@
 package view;
 
+import model.SystemController;
 import view.screens.Screen;
 
 import javax.swing.*;
@@ -23,10 +24,6 @@ public class PhoneApp extends JFrame {
         add(SCREEN);
         pack();
         setVisible(true);
-    }
-
-    public static void main(String[] args) {
-        new PhoneApp();
     }
 
 }

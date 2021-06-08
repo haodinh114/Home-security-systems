@@ -53,6 +53,9 @@ public class Screen extends JPanel {
             add(back, BorderLayout.NORTH);
         }
         add(current.getPanel(), BorderLayout.CENTER);
+        if (current.getPanel() instanceof Refreshable) {
+            ((Refreshable) current.getPanel()).refresh();
+        }
         revalidate();
         repaint();
     }

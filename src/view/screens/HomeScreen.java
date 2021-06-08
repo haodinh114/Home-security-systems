@@ -37,7 +37,7 @@ public class HomeScreen extends JPanel {
         arming = new JButton("Arm/Disarm");
         arming.addActionListener(e -> PhoneApp.SCREEN.updateScreen(Screens.ARM_DISARM));
         sensors = new JButton("System Status/Sensors");
-        sensors.addActionListener(e -> PhoneApp.SCREEN.updateScreen(Screens.SENSORS));
+        sensors.addActionListener(e -> PhoneApp.SCREEN.updateScreen(Screens.STATUS));
         temp = new JButton("Temperature");
         temp.addActionListener(e -> PhoneApp.SCREEN.updateScreen(Screens.TEMPERATURE));
         camera = new JButton("Camera");

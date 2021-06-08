@@ -1,10 +1,18 @@
+package view;
+
 import model.SystemController;
 import model.TriggerSimulator;
 import sensors.*;
+import view.PhoneApp;
 
-public class main {
+public class Main {
+
+    public static final SystemController mainSystem = new SystemController();
+    public static final TriggerSimulator simulator = new TriggerSimulator(mainSystem);
+
     public static void main(String[] args){
-        SystemController mainSystem = new SystemController();
+        //SystemController mainSystem = new SystemController();
+        PhoneApp app = new PhoneApp();
         mainSystem.addSensor(new DoorSensor("1"));
         mainSystem.addSensor(new DoorSensor("2"));
 
