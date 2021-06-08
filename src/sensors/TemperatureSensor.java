@@ -25,7 +25,12 @@ public class TemperatureSensor extends SensorController{
         return "The current temperature is " + this.getTemp();
     }
 
-    public void trigger(Boolean isOne,Boolean isTwo){
+    @Override
+    public String sendMessage(String sensorNumber, String message) {
+        return "The current temperature is " + this.getTemp();
+    }
+
+    public void trigger(Boolean isOne, Boolean isTwo){
         super.currentAlert = this.getCurrentTemp();
     }
 }

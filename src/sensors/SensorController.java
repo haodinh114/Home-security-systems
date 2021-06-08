@@ -2,9 +2,14 @@ package sensors;
 
 public abstract class SensorController {
     public enum SensorStatus{
-        ARMED,
-        WAITING,
-        TRIGGERED
+        ARMED("ARMED"),
+        WAITING("WAITING"),
+        TRIGGERED("TRIGGERED");
+
+        String status;
+        SensorStatus(String triggered){
+            this.status = triggered;
+        }
     }
 
     enum SensorType{
@@ -49,11 +54,11 @@ public abstract class SensorController {
     /**
      * @return send a suitable message depend on the sensor type
      */
-    public String sendMessage() {
-        return null;
-    }
+    abstract public String sendMessage(String sensorNumber, String message);
 
-    public void trigger(Boolean isOne, Boolean isTwo){};
+    abstract public void trigger(Boolean isOne, Boolean isTwo);
+
+
 
     /**
      * @return current sensor name
