@@ -7,12 +7,13 @@ public class DoorSensor extends SensorController{
         super.sensorName = "Door" + sensorNumber;
         super.sensor_type = SensorType.DOOR;
     }
-
+    @Override
     public String sendMessage(String sensorNumber, String message){
         History history= new History(message, "door");
         String newMessage = history.toString() + ": " + sensorNumber;
         return newMessage;
     }
+
 
     /**
      * @param isOpen true if the door is opened

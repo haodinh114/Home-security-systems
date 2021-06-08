@@ -62,6 +62,27 @@ public class HistoryDB {
         return result.toString();
     }
 
+    public String select10Records(){
+        String sql = String.format("SELECT date, time, content FROM history ORDER BY\n" +
+                "    id DESC LIMIT 10" +
+                ";");
+        StringBuilder result = new StringBuilder();
+        try (Connection conn = this.connect();
+             Statement stmt  = conn.createStatement();
+             ResultSet rs    = stmt.executeQuery(sql)){
+
+            // loop through the result set
+            while (rs.next()) {
+                result.append ("Date: " + rs.getString("date") +  "\t" +
+                        "at " + rs.getString("time") + "\t" +
+                        "Description: " + rs.getString("content") + "\n");
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return result.toString();
+    }
+
 
 
     private Connection connect() {
