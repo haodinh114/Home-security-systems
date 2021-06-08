@@ -1,24 +1,26 @@
 package view;
 
-import view.screens.HomeScreen;
-import view.screens.KeypadUI;
+import view.screens.Screen;
 
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * The phone app used for SimpliSafe
+ */
 public class PhoneApp extends JFrame {
+    /**
+     * The main screen of the phone app
+     */
+    public static final Screen SCREEN = new Screen();
 
-    private HomeScreen home = new HomeScreen();
-    private KeypadUI keypadUI = new KeypadUI("3456");
-
+    /**
+     * constructs the window for the phone app
+     */
     public PhoneApp() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setPreferredSize(new Dimension(400, 650));
-        add(home);
-        add(new Border(), BorderLayout.NORTH);
-        add(new Border(), BorderLayout.SOUTH);
-        add(new Border(), BorderLayout.EAST);
-        add(new Border(), BorderLayout.WEST);
+        add(SCREEN);
         pack();
         setVisible(true);
     }
