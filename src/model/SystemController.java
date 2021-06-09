@@ -75,10 +75,7 @@ public class SystemController {
     public String getListSensors(){
         StringBuilder listofSensors = new StringBuilder();
         for (int i = 0; i < this.sensorList.size(); i++){
-            listofSensors.append(this.sensorList.get(i).getSensorName())
-                    .append(" at index ")
-                    .append(i)
-                    .append("\n");
+            listofSensors.append(this.sensorList.get(i).getSensorName() + " at index "+ i + "\n" );
         }
         return listofSensors.toString();
     }
@@ -90,8 +87,6 @@ public class SystemController {
     public SensorController getSensor(int index){
         return this.sensorList.get(index);
     }
-
-    public int getAmountofSensor() { return this.sensorList.size(); }
 
     /**
      * @param input: input pincode
@@ -166,4 +161,7 @@ public class SystemController {
         return this.status.toString();
     }
 
+    public String getUnresolvedRecords(){
+        return this.historyDB.getNotResolvedRecords();
+    }
 }
