@@ -50,10 +50,14 @@ public class SystemController {
     /**
      * @return current system status
      */
-    public SensorStatus getStatus() {
+    private SensorStatus getStatus() {
         return status;
     }
 
+
+    public String getSystemStatus(){
+        return status.name();
+    }
     /**
      * @param status change the system status (ARMED/WAITING/TRIGGERED)
      *               To change the status, call the checkPin method, if it is true, you can change the status
@@ -163,5 +167,26 @@ public class SystemController {
 
     public String getUnresolvedRecords(){
         return this.historyDB.getNotResolvedRecords();
+    }
+
+    public void armSystem(){
+        for (int i = 0; i < this.sensorList.size(); i++){
+            if (this.sensorList.get(i).getSensor_type() == SensorType.DOOR
+                    || this.sensorList.get(i).getSensor_type() == SensorType.MOTION
+                    || this.sensorList.get(i).getSensor_type() == SensorType.WINDOW){
+                this.sensorList.get(i).setStatus(SensorStatus.ARMED);
+            }
+        }
+        this.status = SensorStatus.ARMED;
+    }
+    public void disArmSystem(){
+        for (int i = 0; i < this.sensorList.size(); i++){
+            if (this.sensorList.get(i).getSensor_type() == SensorType.DOOR
+                    || this.sensorList.get(i).getSensor_type() == SensorType.MOTION
+                    || this.sensorList.get(i).getSensor_type() == SensorType.WINDOW) {
+                this.sensorList.get(i).setStatus(SensorStatus.WAITING);
+            }
+        }
+        this.status = SensorStatus.WAITING;
     }
 }

@@ -30,7 +30,9 @@ public class dbtest {
         System.out.println(mainSystem.trigger(1));
         System.out.println(mainSystem.select10RecentRecords());
         System.out.println(mainSystem.getCurrentStatus());
+        mainSystem.armSystem();
         System.out.println(mainSystem.getListSensors());
-
+        mainSystem.disArmSystem();
+        System.out.println(mainSystem.getListSensors());
     }
 }
