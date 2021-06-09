@@ -75,7 +75,7 @@ public class SystemController {
     public String getListSensors(){
         StringBuilder listofSensors = new StringBuilder();
         for (int i = 0; i < this.sensorList.size(); i++){
-            listofSensors.append(this.sensorList.get(i).getSensorName() + " at index "+ i + "\n" );
+            listofSensors.append(this.sensorList.get(i).getSensorName() + " at index "+ i + ". Status: " +  this.sensorList.get(i).getStatus().name() + "\n" );
         }
         return listofSensors.toString();
     }

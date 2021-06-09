@@ -30,5 +30,7 @@ public class dbtest {
         System.out.println(mainSystem.trigger(1));
         System.out.println(mainSystem.select10RecentRecords());
         System.out.println(mainSystem.getCurrentStatus());
+        System.out.println(mainSystem.getListSensors());
+
     }
 }
