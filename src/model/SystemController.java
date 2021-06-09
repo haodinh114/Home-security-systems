@@ -161,4 +161,7 @@ public class SystemController {
         return this.status.toString();
     }
 
+    public String getUnresolvedRecords(){
+        return this.historyDB.getNotResolvedRecords();
+    }
 }

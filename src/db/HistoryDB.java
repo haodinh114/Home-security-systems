@@ -16,7 +16,9 @@ public class HistoryDB {
                 statement.executeUpdate("CREATE TABLE IF NOT EXISTS history " +
                         "(id integer primary key autoincrement, " +
                         "date text not null, time text not null, " +
-                        "content text not null, type_alert text not null)");
+                        "content text not null, type_alert text not null, " +
+                        "isResolved INTEGER not null" +
+                        ")");
             }
             catch(SQLException e)
             {
@@ -62,6 +64,27 @@ public class HistoryDB {
         return result.toString();
     }
 
+    public String getNotResolvedRecords(){
+        String sql = String.format("SELECT date, time, content FROM history ORDER BY\n" +
+                "    id DESC where isResolved = 0" +
+                ";");
+        StringBuilder result = new StringBuilder();
+        try (Connection conn = this.connect();
+             Statement stmt  = conn.createStatement();
+             ResultSet rs    = stmt.executeQuery(sql)){
+
+            // loop through the result set
+            while (rs.next()) {
+                result.append ("Date: " + rs.getString("date") +  "\t" +
+                        "at " + rs.getString("time") + "\t" +
+                        "Description: " + rs.getString("content") + "\n");
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return result.toString();
+    }
+
     public String select10Records(){
         String sql = String.format("SELECT date, time, content FROM history ORDER BY\n" +
                 "    id DESC LIMIT 10" +
@@ -81,6 +104,18 @@ public class HistoryDB {
             System.out.println(e.getMessage());
         }
         return result.toString();
+    }
+
+    public void updateResolvedRecord(int id, int value){
+//        UPDATE tasks SET priority = ? , begin_date = ? ,end_date = ? WHERE id = ?
+        String sql = String.format("UPDATE history SET isResolved = %s WHERE id = %s ;", value, id);
+        try (Connection conn = this.connect();
+             Statement stmt  = conn.createStatement();
+             ResultSet rs    = stmt.executeQuery(sql)){
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
     }
 
 
