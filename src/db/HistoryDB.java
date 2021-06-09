@@ -106,6 +106,27 @@ public class HistoryDB {
         return result.toString();
     }
 
+    public String selectLastRecord(){
+        String sql = String.format("SELECT date, time, content FROM history ORDER BY\n" +
+                "    id DESC LIMIT 1" +
+                ";");
+        StringBuilder result = new StringBuilder();
+        try (Connection conn = this.connect();
+             Statement stmt  = conn.createStatement();
+             ResultSet rs    = stmt.executeQuery(sql)){
+
+            // loop through the result set
+            while (rs.next()) {
+                result.append ("Date: " + rs.getString("date") +  "\t" +
+                        "at " + rs.getString("time") + "\t" +
+                        "Description: " + rs.getString("content") + "\n");
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return result.toString();
+    }
+
     public void updateResolvedRecord(int id, int value){
 //        UPDATE tasks SET priority = ? , begin_date = ? ,end_date = ? WHERE id = ?
         String sql = String.format("UPDATE history SET isResolved = %s WHERE id = %s ;", value, id);

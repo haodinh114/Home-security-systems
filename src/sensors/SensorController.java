@@ -12,7 +12,7 @@ public abstract class SensorController {
         }
     }
 
-    enum SensorType{
+    public enum SensorType{
         MOTION,
         SMOKE,
         TEMP,
