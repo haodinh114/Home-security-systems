@@ -112,6 +112,9 @@ public class SystemController {
         return this.historyDB.select10Records();
     }
 
+    public String selectLastRecord(){
+        return this.historyDB.selectLastRecord();
+    }
 
     /**
      * Setup the main system
@@ -189,4 +192,6 @@ public class SystemController {
         }
         this.status = SensorStatus.WAITING;
     }
+
+
 }
