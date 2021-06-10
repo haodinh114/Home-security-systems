@@ -1,6 +1,7 @@
 package view.screens;
 
 import view.EllipseButton;
+import view.Main;
 
 import javax.swing.*;
 import java.awt.*;
@@ -10,12 +11,14 @@ import java.awt.event.ActionEvent;
  * This class is the User Interface for the SimpliSafe keypad.
  * This class is able to verify a user via a password system.
  */
-public class KeypadUI extends JPanel {
+public class KeypadUI extends JPanel implements Refreshable {
 
     private EllipseButton b0, b1, b2, b3, b4, b5, b6, b7 , b8, b9, menu, del, off, home, away;
     private JPasswordField passField;
-    private String password = "1234";
     JLabel instruction;
+    private Arming curr;
+    private final String enterPin = "Enter PIN:", option = "Select an Option:",
+            success = "Success!", invalid = "Invalid PIN!";
 
     /**
      * Initialize the keypad with a password
@@ -33,19 +36,21 @@ public class KeypadUI extends JPanel {
         EllipseButton panicButton = new EllipseButton("panic",
                 new Color(0xff0000),
                 new Color(0xcc0000),
+                new Color(0xcc5555),
                 null);
         panicButton.setPreferredSize(new Dimension(60, 60));
         panic.add(panicButton);
         add(screen, BorderLayout.NORTH);
         add(buttons, BorderLayout.CENTER);
         add(panic, BorderLayout.SOUTH);
+        curr = null;
     }
 
     // creates the screen of the keypad
     private JPanel getScreen() {
         JPanel screen = new JPanel(new BorderLayout());
         instruction = new JLabel();
-        instruction.setText("Enter PIN:");
+        instruction.setText(option);
         instruction.setHorizontalAlignment(SwingConstants.CENTER);
         JPanel passArea = new JPanel(new BorderLayout());
         passField = new JPasswordField();
@@ -80,6 +85,7 @@ public class KeypadUI extends JPanel {
         buttons.add(menu);
         buttons.add(b0);
         buttons.add(del);
+        disableNumpad();
         return buttons;
     }
 
@@ -104,9 +110,57 @@ public class KeypadUI extends JPanel {
                         passField.setText(temp.substring(0, temp.length() - 1));
                     }
                 });
-        off = new EllipseButton("off", null);
-        home = new EllipseButton("home", null);
-        away = new EllipseButton("away", null);
+        off = new EllipseButton("off", new Arming("off"));
+        home = new EllipseButton("home", new Arming("home"));
+        away = new EllipseButton("away", new Arming("away"));
+    }
+
+    // disable the numpad buttons
+    private void disableNumpad() {
+        b0.disableButton();
+        b1.disableButton();
+        b2.disableButton();
+        b3.disableButton();
+        b4.disableButton();
+        b5.disableButton();
+        b6.disableButton();
+        b7.disableButton();
+        b8.disableButton();
+        b9.disableButton();
+        del.disableButton();
+    }
+
+    // enable the numpad buttons
+    private void enableNumpad() {
+        b0.enableButton();
+        b1.enableButton();
+        b2.enableButton();
+        b3.enableButton();
+        b4.enableButton();
+        b5.enableButton();
+        b6.enableButton();
+        b7.enableButton();
+        b8.enableButton();
+        b9.enableButton();
+        del.enableButton();
+    }
+
+    @Override
+    public void refresh() {
+
+    }
+
+    private class Arming extends AbstractAction {
+        private Arming(String name) {
+            putValue(Action.NAME, name);
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            curr = this;
+            enableNumpad();
+            instruction.setText(enterPin);
+        }
     }
 
     // The abstract class that manages the input of the numpad
@@ -125,12 +179,28 @@ public class KeypadUI extends JPanel {
             if (passField.getPassword().length < 4)
                 passField.setText(String.valueOf(passField.getPassword()) + num);
             if (passField.getPassword().length == 4) {
-                if (password.equals(String.valueOf(passField.getPassword()))) {
-                    instruction.setText("Success!");
+                String pin = Main.mainSystem.getPinCode();
+                if (pin == null) pin = "1234";
+                if (pin.equals(String.valueOf(passField.getPassword()))) {
+                    if (curr != null) {
+                        if ("off".equals(curr.getValue(Action.NAME)))
+                            Main.mainSystem.disArmSystem();
+                        else
+                            Main.mainSystem.armSystem();
+                        instruction.setText(success);
+                        passField.setText("");
+                        disableNumpad();
+                    }
                 }
                 else {
-                    instruction.setText("Incorrect: Enter PIN:");
+                    instruction.setText(invalid);
+                    try {
+                        Thread.sleep(100);
+                    } catch (InterruptedException interruptedException) {
+                        interruptedException.printStackTrace();
+                    }
                     passField.setText("");
+                    instruction.setText(enterPin);
                 }
             }
         }

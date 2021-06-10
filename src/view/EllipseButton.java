@@ -14,12 +14,13 @@ import java.awt.image.BufferedImage;
  */
 public class EllipseButton extends JPanel {
 
-    private Color unpressed, pressed, current;
+    private Color unpressed, pressed, disabled, current;
     private int offset, x, y, width, height;
     private String name;
     private final ActionListener listener;
     private final Font font;
     private double angle;
+    private boolean enabled;
 
     /**
      * Creates an EllipseButton with a set name/text and action listener.
@@ -30,11 +31,12 @@ public class EllipseButton extends JPanel {
         this.name = name;
         Mouse mouse = new Mouse();
         font = new Font("Serif", Font.BOLD, 16);
-        makeButton(new Color(0x999999), new Color(0x777777));
+        makeButton(new Color(0x999999), new Color(0x777777), new Color(0xaaaaaa));
         addMouseListener(mouse);
         addMouseMotionListener(mouse);
         this.listener = listener;
         angle = 0;
+        enabled = true;
     }
 
     /**
@@ -44,23 +46,36 @@ public class EllipseButton extends JPanel {
      * @param p the color when it is pressed
      * @param listener The ActionListener for when the button is clicked on
      */
-    public EllipseButton(String name, Color up, Color p, ActionListener listener) {
+    public EllipseButton(String name, Color up, Color p, Color d, ActionListener listener) {
         this.name = name;
         Mouse mouse = new Mouse();
         font = new Font("Serif", Font.BOLD, 16);
-        makeButton(up, p);
+        makeButton(up, p, d);
         addMouseListener(mouse);
         addMouseMotionListener(mouse);
         this.listener = listener;
     }
 
     // makes the property of the button
-    private void makeButton (Color up, Color p) {
+    private void makeButton (Color up, Color p, Color d) {
         unpressed = up;
         pressed = p;
+        disabled = d;
         current = unpressed;
         offset = 10;
         updateEllipse();
+    }
+
+    public void enableButton() {
+        enabled = true;
+        current = unpressed;
+        repaint();
+    }
+
+    public void disableButton() {
+        enabled = false;
+        current = disabled;
+        repaint();
     }
 
     // updates the ellipse based on panel size
@@ -133,6 +148,7 @@ public class EllipseButton extends JPanel {
         @Override
         public void mousePressed(MouseEvent e) {
             super.mousePressed(e);
+            if (!enabled) return;
             if (isInside(e.getX(), e.getY())) {
                 if (!press) {
                     current = pressed;
@@ -146,6 +162,7 @@ public class EllipseButton extends JPanel {
         @Override
         public void mouseDragged(MouseEvent e) {
             super.mouseDragged(e);
+            if (!enabled) return;
             if (!isInside(e.getX(), e.getY())) {
                 if (press && pressInside) {
                     current = unpressed;
@@ -166,6 +183,7 @@ public class EllipseButton extends JPanel {
         @Override
         public void mouseReleased(MouseEvent e) {
             super.mouseReleased(e);
+            if (!enabled) return;
             current = unpressed;
             pressInside = false;
             paintComponent(getGraphics());
