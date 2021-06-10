@@ -1,7 +1,6 @@
 package view.screens;
 
 import model.SystemController;
-import sensors.SensorController;
 import view.Main;
 
 import javax.swing.*;
@@ -22,21 +21,10 @@ public class StatusScreen extends JPanel implements Refreshable {
         refresh();
     }
 
+    @Override
     public void refresh() {
-        StringBuilder s = new StringBuilder();
         SystemController controller = Main.mainSystem;
-        for (int i = 0; i < controller.getAmountofSensor(); i++) {
-            SensorController sensor = controller.getSensor(i);
-            s.append(sensor.getSensorName())
-                    .append(" ")
-                    .append(sensor.getSensor_type())
-                    .append(" ")
-                    .append(sensor.getStatus())
-                    .append(" ")
-                    .append(sensor.getCurrentAlert())
-                    .append("\n");
-        }
-        area.setText(s.toString());
+        area.setText(controller.getListSensors());
     }
 
 }

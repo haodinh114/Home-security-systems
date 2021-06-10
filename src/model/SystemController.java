@@ -168,10 +168,6 @@ public class SystemController {
         return this.status.toString();
     }
 
-    public String getUnresolvedRecords(){
-        return this.historyDB.getNotResolvedRecords();
-    }
-
     public void armSystem(){
         for (int i = 0; i < this.sensorList.size(); i++){
             if (this.sensorList.get(i).getSensor_type() == SensorType.DOOR

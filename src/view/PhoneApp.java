@@ -1,6 +1,5 @@
 package view;
 
-import model.SystemController;
 import view.screens.Screen;
 
 import javax.swing.*;
@@ -18,7 +17,8 @@ public class PhoneApp extends JFrame {
     /**
      * constructs the window for the phone app
      */
-    public PhoneApp() {
+    public PhoneApp(String title) {
+        setTitle(title);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setPreferredSize(new Dimension(400, 650));
         add(SCREEN);
