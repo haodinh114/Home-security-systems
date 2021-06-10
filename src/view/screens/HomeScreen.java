@@ -5,10 +5,16 @@ import view.PhoneApp;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * This class contains the home screen view
+ */
 public class HomeScreen extends JPanel {
     private JButton notice, arming, sensors, temp, camera, simpli;
     private JTextField status = new JTextField();
 
+    /**
+     * The create the home screen
+     */
     public HomeScreen() {
         setLayout(new BorderLayout());
         status.setPreferredSize(new Dimension(100, 100));
@@ -24,6 +30,7 @@ public class HomeScreen extends JPanel {
         add(buttons, BorderLayout.CENTER);
     }
 
+    // initialize the buttons
     private void initializeButtons() {
         notice = new JButton("Notification");
         notice.addActionListener(e -> PhoneApp.SCREEN.updateScreen(Screens.NOTIFICATION));
