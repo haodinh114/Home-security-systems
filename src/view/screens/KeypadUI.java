@@ -179,14 +179,14 @@ public class KeypadUI extends JPanel implements Refreshable {
             if (passField.getPassword().length < 4)
                 passField.setText(String.valueOf(passField.getPassword()) + num);
             if (passField.getPassword().length == 4) {
-                String pin = Main.mainSystem.getPinCode();
+                String pin = Main.MAIN_SYSTEM.getPinCode();
                 if (pin == null) pin = "1234";
                 if (pin.equals(String.valueOf(passField.getPassword()))) {
                     if (curr != null) {
                         if ("off".equals(curr.getValue(Action.NAME)))
-                            Main.mainSystem.disArmSystem();
+                            Main.MAIN_SYSTEM.disArmSystem();
                         else
-                            Main.mainSystem.armSystem();
+                            Main.MAIN_SYSTEM.armSystem();
                         instruction.setText(success);
                         passField.setText("");
                         disableNumpad();

@@ -26,7 +26,7 @@ public class NotificationScreen extends JPanel implements Refreshable {
 
     @Override
     public void refresh() {
-        StringBuilder s = new StringBuilder(Main.mainSystem.selectAllRecords());
+        StringBuilder s = new StringBuilder(Main.MAIN_SYSTEM.selectAllRecords());
         Scanner line = new Scanner(s.toString());
         List<String> lines = new ArrayList<>();
         while (line.hasNextLine())

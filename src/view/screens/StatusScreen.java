@@ -23,7 +23,7 @@ public class StatusScreen extends JPanel implements Refreshable {
 
     @Override
     public void refresh() {
-        SystemController controller = Main.mainSystem;
+        SystemController controller = Main.MAIN_SYSTEM;
         area.setText(controller.getListSensors());
     }
 

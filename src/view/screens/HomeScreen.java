@@ -52,11 +52,11 @@ public class HomeScreen extends JPanel implements Refreshable{
     @Override
     public void refresh() {
         String s = "";
-        SystemController system = Main.mainSystem;
-        s += "System Status: " + Main.mainSystem.getSystemStatus() + "\n";
+        SystemController system = Main.MAIN_SYSTEM;
+        s += "System Status: " + Main.MAIN_SYSTEM.getSystemStatus() + "\n";
         if (system.selectLastRecord().equals(""))
             s+= "No new Notifications!";
-        s += "Last Notification: " + Main.mainSystem.selectLastRecord();
+        s += "Last Notification: " + Main.MAIN_SYSTEM.selectLastRecord();
         status.setText(s);
     }
 }
