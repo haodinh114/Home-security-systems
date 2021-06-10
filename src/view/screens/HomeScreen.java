@@ -1,5 +1,7 @@
 package view.screens;
 
+import model.SystemController;
+import view.Main;
 import view.PhoneApp;
 
 import javax.swing.*;
@@ -8,9 +10,9 @@ import java.awt.*;
 /**
  * This class contains the home screen view
  */
-public class HomeScreen extends JPanel {
+public class HomeScreen extends JPanel implements Refreshable{
     private JButton notice, arming, sensors, temp, camera, simpli;
-    private JTextField status = new JTextField();
+    private JTextArea status = new JTextArea();
 
     /**
      * The create the home screen
@@ -28,6 +30,7 @@ public class HomeScreen extends JPanel {
         buttons.add(camera);
         buttons.add(simpli);
         add(buttons, BorderLayout.CENTER);
+        refresh();
     }
 
     // initialize the buttons
@@ -44,5 +47,16 @@ public class HomeScreen extends JPanel {
         camera.addActionListener(e -> PhoneApp.SCREEN.updateScreen(Screens.CAMERA));
         simpli = new JButton("SimpliSafe");
         simpli.addActionListener(e -> PhoneApp.SCREEN.updateScreen(Screens.SIMPLISAFE));
+    }
+
+    @Override
+    public void refresh() {
+        String s = "";
+        SystemController system = Main.mainSystem;
+        s += "System Status: " + Main.mainSystem.getSystemStatus() + "\n";
+        if (system.selectLastRecord().equals(""))
+            s+= "No new Notifications!";
+        s += "Last Notification: " + Main.mainSystem.selectLastRecord();
+        status.setText(s);
     }
 }
