@@ -19,6 +19,7 @@ public class EllipseButton extends JPanel {
     private String name;
     private final ActionListener listener;
     private final Font font;
+    private double angle;
 
     /**
      * Creates an EllipseButton with a set name/text and action listener.
@@ -33,6 +34,7 @@ public class EllipseButton extends JPanel {
         addMouseListener(mouse);
         addMouseMotionListener(mouse);
         this.listener = listener;
+        angle = 0;
     }
 
     /**
@@ -81,7 +83,9 @@ public class EllipseButton extends JPanel {
         bbg.setColor(this.getBackground());
         bbg.fillRect(0,0, getWidth(), getHeight());
         bbg.setColor(current);
+        bbg.rotate(-angle, x, y);
         bbg.fillOval(offset, offset, width, height);
+        bbg.rotate(angle, x, y);
         bbg.setColor(Color.WHITE);
         bbg.setFont(font);
         drawingString(bbg, name);
@@ -108,17 +112,22 @@ public class EllipseButton extends JPanel {
 
         // checks if the mouse is inside of the ellipse
         private boolean isInside(int mouseX, int mouseY) {
-            int distX = x - mouseX;
-            int distY = y - mouseY;
-            double angle;
-            if (distX == 0 && distY == 0) angle = 0;
-            else if (distX == 0) angle = Math.atan(1.0 * distX / distY);
-            else angle = Math.atan(1.0 * distY / distX);
-            double dist =  Math.sqrt(distX * distX + distY * distY);
-            double elX = 1.0 * height/2 * Math.cos(angle);
-            double elY = 1.0 * width/2 * Math.sin(angle);
-            double dist2 = Math.sqrt(width*width*height*height/16.0/(elX * elX + elY * elY));
-            return dist < dist2;
+            int x = EllipseButton.this.x - mouseX;
+            int y = EllipseButton.this.y - mouseY;
+            int xX = x * x;
+            int yY = y * y;
+            double a = width / 2.0;
+            double b = height / 2.0;
+            double aA = a * a;
+            double bB = b * b;
+            double coef1 = aA * yY + bB * xX;
+            double coef2 = (aA - bB) * x * y;
+            double coef3 = (aA * xX + bB * yY);
+            double cosCos = Math.cos(angle) * Math.cos(angle);
+            double sinSin = Math.sin(angle) * Math.sin(angle);
+            double dist = coef1 * cosCos + coef2 * Math.sin(2*angle) + coef3 * sinSin;
+            double dist2 = a * a * b * b;
+            return dist <= dist2;
         }
 
         @Override
