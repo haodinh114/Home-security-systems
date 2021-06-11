@@ -56,7 +56,8 @@ public class HomeScreen extends JPanel implements Refreshable{
         s += "System Status: " + Main.MAIN_SYSTEM.getSystemStatus() + "\n";
         if (system.selectLastRecord().equals(""))
             s+= "No new Notifications!";
-        s += "Last Notification: " +
+        else
+            s += "Last Notification: " +
                 NotificationScreen.notification(Main.MAIN_SYSTEM.selectLastRecord());
         status.setText(s);
     }
