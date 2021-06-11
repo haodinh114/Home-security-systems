@@ -31,7 +31,7 @@ public class EllipseButton extends JPanel {
         this.name = name;
         Mouse mouse = new Mouse();
         font = new Font("Serif", Font.BOLD, 16);
-        makeButton(new Color(0x999999), new Color(0x777777), new Color(0xaaaaaa));
+        makeButton(new Color(0x999999), new Color(0x777777), new Color(0xbbbbbb));
         addMouseListener(mouse);
         addMouseMotionListener(mouse);
         this.listener = listener;
