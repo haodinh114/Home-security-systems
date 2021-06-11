@@ -17,8 +17,6 @@ public class KeypadUI extends JPanel implements Refreshable {
     private JPasswordField passField;
     JLabel instruction;
     private Arming curr;
-    private final String enterPin = "Enter PIN:", option = "Select an Option:",
-            success = "Success!", invalid = "Invalid PIN!";
 
     /**
      * Initialize the keypad with a password
@@ -50,6 +48,7 @@ public class KeypadUI extends JPanel implements Refreshable {
     private JPanel getScreen() {
         JPanel screen = new JPanel(new BorderLayout());
         instruction = new JLabel();
+        String option = "Select an Option:";
         instruction.setText(option);
         instruction.setHorizontalAlignment(SwingConstants.CENTER);
         JPanel passArea = new JPanel(new BorderLayout());
@@ -159,6 +158,7 @@ public class KeypadUI extends JPanel implements Refreshable {
         public void actionPerformed(ActionEvent e) {
             curr = this;
             enableNumpad();
+            String enterPin = "Enter PIN:";
             instruction.setText(enterPin);
         }
     }
@@ -187,20 +187,16 @@ public class KeypadUI extends JPanel implements Refreshable {
                             Main.MAIN_SYSTEM.disArmSystem();
                         else
                             Main.MAIN_SYSTEM.armSystem();
+                        String success = "Success!";
                         instruction.setText(success);
                         passField.setText("");
                         disableNumpad();
                     }
                 }
                 else {
+                    String invalid = "Invalid PIN!";
                     instruction.setText(invalid);
-                    try {
-                        Thread.sleep(100);
-                    } catch (InterruptedException interruptedException) {
-                        interruptedException.printStackTrace();
-                    }
                     passField.setText("");
-                    instruction.setText(enterPin);
                 }
             }
         }

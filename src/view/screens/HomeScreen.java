@@ -12,7 +12,7 @@ import java.awt.*;
  */
 public class HomeScreen extends JPanel implements Refreshable{
     private JButton notice, arming, sensors, temp, camera, simpli;
-    private JTextArea status = new JTextArea();
+    private final JTextArea status = new JTextArea();
 
     /**
      * The create the home screen
@@ -56,7 +56,8 @@ public class HomeScreen extends JPanel implements Refreshable{
         s += "System Status: " + Main.MAIN_SYSTEM.getSystemStatus() + "\n";
         if (system.selectLastRecord().equals(""))
             s+= "No new Notifications!";
-        s += "Last Notification: " + Main.MAIN_SYSTEM.selectLastRecord();
+        s += "Last Notification: " +
+                NotificationScreen.notification(Main.MAIN_SYSTEM.selectLastRecord());
         status.setText(s);
     }
 }

@@ -13,7 +13,7 @@ import java.util.List;
  */
 public class NotificationScreen extends JPanel implements Refreshable {
 
-    private JTextArea area;
+    private final JTextArea area;
 
     public NotificationScreen() {
         setLayout(new BorderLayout());
@@ -33,13 +33,19 @@ public class NotificationScreen extends JPanel implements Refreshable {
             lines.add(line.nextLine());
         s = new StringBuilder();
         for (String x: lines) {
-            Scanner scan = new Scanner(x);
-            scan.next();
-            s.append(scan.next());
-            s.append(" ").append(scan.next()).append(" ").append(scan.next());
-            scan.next();
-            s.append("\n    ").append(scan.nextLine()).append("\n\n");
+            s.append(notification(x)).append("\n\n");
         }
         area.setText(s.toString());
+    }
+
+    public static String notification(String string) {
+        Scanner scan = new Scanner(string);
+        StringBuilder s = new StringBuilder();
+        scan.next();
+        s.append(scan.next());
+        s.append(" ").append(scan.next()).append(" ").append(scan.next());
+        scan.next();
+        s.append("\n    ").append(scan.nextLine());
+        return s.toString();
     }
 }
