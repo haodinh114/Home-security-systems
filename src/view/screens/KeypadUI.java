@@ -17,6 +17,7 @@ public class KeypadUI extends JPanel implements Refreshable {
     private JPasswordField passField;
     JLabel instruction;
     private Arming curr;
+    private final String option = "Select an Option:";
 
     /**
      * Initialize the keypad with a password
@@ -40,7 +41,7 @@ public class KeypadUI extends JPanel implements Refreshable {
         panic.add(panicButton);
         add(screen, BorderLayout.NORTH);
         add(buttons, BorderLayout.CENTER);
-        add(panic, BorderLayout.SOUTH);
+        //add(panic, BorderLayout.SOUTH);
         curr = null;
     }
 
@@ -48,7 +49,6 @@ public class KeypadUI extends JPanel implements Refreshable {
     private JPanel getScreen() {
         JPanel screen = new JPanel(new BorderLayout());
         instruction = new JLabel();
-        String option = "Select an Option:";
         instruction.setText(option);
         instruction.setHorizontalAlignment(SwingConstants.CENTER);
         JPanel passArea = new JPanel(new BorderLayout());
@@ -81,7 +81,8 @@ public class KeypadUI extends JPanel implements Refreshable {
         buttons.add(b1);
         buttons.add(b2);
         buttons.add(b3);
-        buttons.add(menu);
+        //buttons.add(menu);
+        buttons.add(new JPanel());
         buttons.add(b0);
         buttons.add(del);
         disableNumpad();
@@ -146,7 +147,10 @@ public class KeypadUI extends JPanel implements Refreshable {
 
     @Override
     public void refresh() {
-
+        disableNumpad();
+        instruction.setText(option);
+        passField.setText("");
+        curr = null;
     }
 
     private class Arming extends AbstractAction {
