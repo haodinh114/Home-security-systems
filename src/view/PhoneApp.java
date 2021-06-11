@@ -20,7 +20,7 @@ public class PhoneApp extends JFrame {
     public PhoneApp(String title) {
         setTitle(title);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setPreferredSize(new Dimension(400, 650));
+        setPreferredSize(new Dimension(1600, 1000));
         add(SCREEN);
         pack();
         setVisible(true);
