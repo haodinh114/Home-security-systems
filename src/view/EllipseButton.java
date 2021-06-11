@@ -54,6 +54,7 @@ public class EllipseButton extends JPanel {
         addMouseListener(mouse);
         addMouseMotionListener(mouse);
         this.listener = listener;
+        enabled = true;
     }
 
     // makes the property of the button
@@ -66,12 +67,18 @@ public class EllipseButton extends JPanel {
         updateEllipse();
     }
 
+    /**
+     * enable the button
+     */
     public void enableButton() {
         enabled = true;
         current = unpressed;
         repaint();
     }
 
+    /**
+     * disable the button
+     */
     public void disableButton() {
         enabled = false;
         current = disabled;
