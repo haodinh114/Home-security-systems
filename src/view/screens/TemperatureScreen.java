@@ -21,7 +21,7 @@ public class TemperatureScreen extends JPanel implements Refreshable{
     @Override
     public void refresh() {
         SystemController controller = Main.MAIN_SYSTEM;
-        //screen.setText(controller.getTemperature());
+        screen.setText(controller.getTemperature());
     }
 
 }

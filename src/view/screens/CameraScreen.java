@@ -5,12 +5,15 @@ import view.Main;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * Manages the feed from the Camera to be seen on screen.
+ */
 public class CameraScreen extends JPanel {
 
     Picture frontDoor, bedroom, livingRoom, kitchen;
 
     /**
-     * Creates the
+     * Creates the Camera screen of default camera
      */
     public CameraScreen() {
         this.setLayout(new BorderLayout());

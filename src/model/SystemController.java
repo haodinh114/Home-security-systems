@@ -3,6 +3,7 @@ import db.HistoryDB;
 import db.UserDb;
 import sensors.*;
 import sensors.SensorController.*;
+import view.screens.TemperatureScreen;
 
 import java.util.ArrayList;
 
@@ -54,6 +55,20 @@ public class SystemController {
         return status;
     }
 
+    /**
+     * get all of the temperature
+     * @return the temperature of all Temperature sensors
+     */
+    public String getTemperature() {
+        StringBuilder s = new StringBuilder();
+        for(SensorController x: sensorList) {
+            if (x instanceof TemperatureSensor) {
+                s.append(((TemperatureSensor) x).getCurrentTemp()).append("\n");
+            }
+        }
+        return s.toString();
+    }
+
 
     public String getSystemStatus(){
         return status.name();
@@ -79,7 +94,9 @@ public class SystemController {
     public String getListSensors(){
         StringBuilder listofSensors = new StringBuilder();
         for (int i = 0; i < this.sensorList.size(); i++){
-            listofSensors.append(this.sensorList.get(i).getSensorName() + " at index "+ i + ". Status: " +  this.sensorList.get(i).getStatus().name() + "\n" );
+            listofSensors.append(this.sensorList.get(i).getSensorName()).append(" at index ")
+                    .append(i).append(". Status: ").append(this.sensorList.get(i)
+                    .getStatus().name()).append("\n");
         }
         return listofSensors.toString();
     }
@@ -169,21 +186,21 @@ public class SystemController {
     }
 
     public void armSystem(){
-        for (int i = 0; i < this.sensorList.size(); i++){
-            if (this.sensorList.get(i).getSensor_type() == SensorType.DOOR
-                    || this.sensorList.get(i).getSensor_type() == SensorType.MOTION
-                    || this.sensorList.get(i).getSensor_type() == SensorType.WINDOW){
-                this.sensorList.get(i).setStatus(SensorStatus.ARMED);
+        for (SensorController sensorController : this.sensorList) {
+            if (sensorController.getSensor_type() == SensorType.DOOR
+                    || sensorController.getSensor_type() == SensorType.MOTION
+                    || sensorController.getSensor_type() == SensorType.WINDOW) {
+                sensorController.setStatus(SensorStatus.ARMED);
             }
         }
         this.status = SensorStatus.ARMED;
     }
     public void disArmSystem(){
-        for (int i = 0; i < this.sensorList.size(); i++){
-            if (this.sensorList.get(i).getSensor_type() == SensorType.DOOR
-                    || this.sensorList.get(i).getSensor_type() == SensorType.MOTION
-                    || this.sensorList.get(i).getSensor_type() == SensorType.WINDOW) {
-                this.sensorList.get(i).setStatus(SensorStatus.WAITING);
+        for (SensorController sensorController : this.sensorList) {
+            if (sensorController.getSensor_type() == SensorType.DOOR
+                    || sensorController.getSensor_type() == SensorType.MOTION
+                    || sensorController.getSensor_type() == SensorType.WINDOW) {
+                sensorController.setStatus(SensorStatus.WAITING);
             }
         }
         this.status = SensorStatus.WAITING;

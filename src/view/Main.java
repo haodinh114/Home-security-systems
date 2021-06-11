@@ -1,9 +1,7 @@
 package view;
 
 import model.SystemController;
-import model.TriggerSimulator;
 
-import javax.swing.*;
 import java.awt.*;
 
 public class Main {
