@@ -17,13 +17,14 @@ public class PhoneApp extends JFrame {
     /**
      * constructs the window for the phone app
      */
-    public PhoneApp(String title) {
+    public PhoneApp(String title, Dimension d) {
         setTitle(title);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setPreferredSize(new Dimension(400, 650));
+        setPreferredSize(d);
         add(SCREEN);
         pack();
         setVisible(true);
     }
+
 
 }
