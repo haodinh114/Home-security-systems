@@ -1,1 +1,2 @@
-# PRJ#3-group-3
+# Home Security Systems
+# This project is for TCSS360 - Software Development course.
